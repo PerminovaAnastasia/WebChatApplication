@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel= "stylesheet" href = "resources/css/bootstrap.css">
+        <link rel="stylesheet" href="Mystyle.css">
+        <script src="scripts.js"></script>
+        
+        <title>Chat</title>
+        
+    </head>
+    <body onload="run()">
+    
+    <div class="col-md-6 col-md-offset-2">
+         <div class = "connected"><h3><a><span id = "connect" class="label label-success">Connected</span></a></h3></div>
+        
+        <div class="divHeight">
+          <span class ="common-glyph">
+           <span class="gl-pen"> <a href="#"><i class="glyphicon glyphicon-pencil"></i></a> </span> 
+            <span class="gl-pen"> <a  href="#"><i class="glyphicon glyphicon-trash"></i></a> </span> 
+            </span>
+              </div>
+        
+        <div class="my-table">
+        <table class="table"> 
+         </table>
+         </div>
+              
+        <div class="input-group">
+            <textarea id = "tableMessage" class="form-control" rows="5" type="text" placeholder="Input message..."></textarea>
+            <span class="input-group-btn">
+            <button id = "buttonSend" class="btn btn-info" type="button"> <i class="glyphicon glyphicon-send"></i> Send</button>
+               </span>
+                 </div>
+        
+    </div>
+        
+    <div class="col-md-3">
+         <div class ="label-name" ><h4><span class="label label-info">Name:</span></h4></div>
+         <input type="text" id = "userName" class="form-control" maxlength="10" placeholder="Input name">
+         
+
+       <div class ="label-onliners" ><h4><span class="label label-info">Online persons:</span></h4></div>
+         
+         <ul class="list-group">
+          <li class="list-group-item">Person1</li>
+          </ul>
+         
+        </div>
+
+    </body> 
+</html>
