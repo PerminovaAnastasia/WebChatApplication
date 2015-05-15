@@ -2,7 +2,10 @@
 width:15%;
 }
 .col-text{
-width:75%;
+width:60%;
+}
+.col-data{
+    width: 15%;
 }
 .col-button{
 width:5%;
