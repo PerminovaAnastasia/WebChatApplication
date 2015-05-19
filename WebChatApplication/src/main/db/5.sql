@@ -1,0 +1,1 @@
+Select user_id,count(text) From messages group by user_id Having count(text)>3
