@@ -1,5 +1,6 @@
 package bsu.fpmi.chat.controller;
 
+import bsu.fpmi.chat.xml.XMLHistoryChange;
 import bsu.fpmi.chat.xml.XMLHistoryUtil;
 import bsu.fpmi.chat.util.ServletUtil;
 import bsu.fpmi.chat.xml.XMLHistoryUtil;
@@ -71,7 +72,7 @@ public final class AsynchronousProcessor {
         });
         int token = Integer.parseInt(context.getRequest().getParameter(TOKEN));
         try {
-            if (token == XMLHistoryUtil.getStorageSize())
+            if (token == XMLHistoryChange.getStorageSize())
                 storage.add(context);
             else {
                 getMessages(context);

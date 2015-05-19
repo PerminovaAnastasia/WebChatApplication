@@ -354,9 +354,9 @@ function defaultErrorHandler(message) {
     }
 }
 
-function get(url, continueWith, continueWithError) {
-    ajax('GET', url, null, continueWith, continueWithError);
-}
+//function get(url, continueWith, continueWithError) {
+//    ajax('GET', url, null, continueWith, continueWithError);
+//}
 
 function post(url, data, continueWith, continueWithError) {
     ajax('POST', url, data, continueWith, continueWithError);
