@@ -44,10 +44,11 @@ function run() {
     var text = document.getElementById("tableMessage");
     text.addEventListener('keypress', ifTextInput);
 
-    restore();
+    polling();
+    /*restore();
     window.setInterval(restore, 500);
 
-    connectionServer(true);
+    connectionServer(true);*/
 }
 function createAllHistory(allHistory) {
 
@@ -83,20 +84,42 @@ function updateOneMessage(message) {
     }
     idTemp.childNodes[2].innerText = message.text;
 
+
 }
 
-function restore(continueWith) {
-    var url = appState.mainUrl + '?token=' + appState.token;
+//function restore(continueWith) {
+//    var url = appState.mainUrl + '?token=' + appState.token;
+//
+//    get(url, function (responseText) {
+//        console.assert(responseText != null);
+//
+//        var response = JSON.parse(responseText);
+//
+//        appState.token = response.token;
+//        createAllHistory(response.messages);
+//
+//        continueWith && continueWith();
+//    });
+//}
 
-    get(url, function (responseText) {
-        console.assert(responseText != null);
-
-        var response = JSON.parse(responseText);
-
-        appState.token = response.token;
-        createAllHistory(response.messages);
-
-        continueWith && continueWith();
+function polling() {
+    $.ajax({
+        url: appState.mainUrl + '?token=' + appState.token,
+        success: function (response) {
+            // var response = JSON.parse(data);
+            appState.token = response.token;
+            createAllHistory(response.messages);
+            connectionServer(true);
+        },
+        error: function (e) {
+            if (e.statusText == "timeout")
+                connectionServer(true);
+            else
+                connectionServer(false);
+        },
+        dataType: "json",
+        complete: polling,
+        timeout: 30000
     });
 }
 

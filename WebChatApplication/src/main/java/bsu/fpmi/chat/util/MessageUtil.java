@@ -6,7 +6,7 @@ import org.json.simple.parser.ParseException;
 
 public final class MessageUtil {
 	public static final String TOKEN = "token";
-	private static final String ID = "id";
+	public static final String ID = "id";
 	public static final String MESSAGES = "messages";
 	private static final String USERNAME = "username";
 	private static final String TEXT = "text";
