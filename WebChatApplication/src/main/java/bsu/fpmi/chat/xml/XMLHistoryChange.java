@@ -85,7 +85,7 @@ public class XMLHistoryChange {
         Element root = document.getDocumentElement(); // Root <tasks> element
         NodeList taskList = root.getElementsByTagName(ID);
 
-        ArrayList<String> idList = new ArrayList<>();
+        ArrayList<String> idList = new ArrayList<String>();
 
         for (int i = index; i < taskList.getLength(); i++) {
 

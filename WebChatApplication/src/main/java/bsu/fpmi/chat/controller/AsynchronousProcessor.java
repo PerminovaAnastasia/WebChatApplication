@@ -1,5 +1,7 @@
 package bsu.fpmi.chat.controller;
 
+import bsu.fpmi.chat.dao.MessageDaoImpl;
+import bsu.fpmi.chat.db.ConnectionManager;
 import bsu.fpmi.chat.xml.XMLHistoryChange;
 import bsu.fpmi.chat.xml.XMLHistoryUtil;
 import bsu.fpmi.chat.util.ServletUtil;
@@ -23,6 +25,7 @@ import static bsu.fpmi.chat.util.MessageUtil.getIndex;
 
 public final class AsynchronousProcessor {
     private final static Queue<AsyncContext> storage = new ConcurrentLinkedQueue<AsyncContext>();
+    private static MessageDaoImpl messageDaoImpl = new MessageDaoImpl();
 
     public static void notifyAllClients() {
         for (AsyncContext asyncContext : storage) {
@@ -38,7 +41,8 @@ public final class AsynchronousProcessor {
         try {
             if (token != null && !"".equals(token)) {
                 int index = getIndex(token);
-                String messages = XMLHistoryUtil.getMessages(index);
+               // String messages = XMLHistoryUtil.getMessages(index);
+                String messages = messageDaoImpl.get(index);
                 asyncContext.getResponse().setContentType(ServletUtil.APPLICATION_JSON);
                 asyncContext.getResponse().setCharacterEncoding("utf-8");
                 PrintWriter out = asyncContext.getResponse().getWriter();
@@ -47,7 +51,7 @@ public final class AsynchronousProcessor {
             } else {
                 ((HttpServletResponse) asyncContext.getResponse()).sendError(HttpServletResponse.SC_BAD_REQUEST, "'token' parameter needed");
             }
-        } catch (SAXException | IOException | ParserConfigurationException | XPathExpressionException e) {
+        } catch ( IOException /*| ParserConfigurationException |SAXException| XPathExpressionException*/ e) {
 
         }
     }

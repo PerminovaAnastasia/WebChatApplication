@@ -1,5 +1,6 @@
 package bsu.fpmi.chat.controller;
 
+import bsu.fpmi.chat.dao.MessageDaoImpl;
 import bsu.fpmi.chat.util.ServletUtil;
 import bsu.fpmi.chat.xml.XMLHistoryChange;
 import bsu.fpmi.chat.xml.XMLHistoryUtil;
@@ -19,6 +20,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
+import java.util.UUID;
 
 import static bsu.fpmi.chat.util.MessageUtil.*;
 
@@ -26,6 +28,7 @@ import static bsu.fpmi.chat.util.MessageUtil.*;
 public class TaskServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(TaskServlet.class.getName());
+    private static MessageDaoImpl messageDaoImpl = new MessageDaoImpl();
 
     @Override
     public void init() throws ServletException {
@@ -62,6 +65,7 @@ public class TaskServlet extends HttpServlet {
         logger.info("doGet");
         String data = "Token: "+request.getParameter(TOKEN);
         logger.info(data);
+
         AsynchronousProcessor.addAsyncContext(asyncContext);
     }
 
@@ -69,10 +73,14 @@ public class TaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("doPost");
         String data = ServletUtil.getMessageBody(request);
-        logger.info("Message body: "+data);
+        logger.info("Message body: " + data);
         try {
             JSONObject message = stringToJson(data);
+            message.put(ID, UUID.randomUUID().toString());
             XMLHistoryUtil.addData(message);
+            //
+            messageDaoImpl.add(message);
+            //
             AsynchronousProcessor.notifyAllClients();
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (ParseException | ParserConfigurationException | SAXException | TransformerException e) {
@@ -90,6 +98,9 @@ public class TaskServlet extends HttpServlet {
             JSONObject message = stringToJson(data);
             if (message != null) {
                 XMLHistoryUtil.updateData(message);
+                //
+                messageDaoImpl.update(message);
+                //
                 AsynchronousProcessor.notifyAllClients();
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {
@@ -108,6 +119,9 @@ public class TaskServlet extends HttpServlet {
         String id = request.getParameter(ID);
         try {
             XMLHistoryUtil.deleteData(id);
+            //
+            messageDaoImpl.delete(id);
+            //
                 AsynchronousProcessor.notifyAllClients();
                 response.setStatus(HttpServletResponse.SC_OK);
 

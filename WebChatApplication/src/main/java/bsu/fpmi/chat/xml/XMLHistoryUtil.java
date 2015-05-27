@@ -72,10 +72,12 @@ public final class XMLHistoryUtil {
 		Element taskElement = document.createElement(MESSAGE);
 		root.appendChild(taskElement);
 
-		String tempID = UUID.randomUUID().toString();
-		taskElement.setAttribute(ID, tempID);
+		//String tempID = UUID.randomUUID().toString();
+		/*Element tempId = document.createElement(ID);
+		tempId.appendChild(document.createTextNode((String)mess.get(ID)));*/
+		taskElement.setAttribute(ID, mess.get(ID).toString());
 
-		XMLHistoryChange.addData(tempID);
+		XMLHistoryChange.addData(mess.get(ID).toString());
 
 		Element username = document.createElement(USERNAME);
 		username.appendChild(document.createTextNode((String)mess.get(USERNAME)));
